@@ -1,8 +1,13 @@
+%define gitdate 20120614
+%define oname bbswitch
+
 Name:		dkms-bbswitch
 Summary:	bbswitch - Optimus GPU power switcher
-Version:	v0.4
-Release:	2
-Source0:	%{name}-%{version}.tar.gz
+Version:	0.4.2
+Release:	1
+#Source0:	%{name}-%{version}.tar.gz
+# source from git repo git://github.com/Bumblebee-Project/bbswitch.git
+Source0:        %{oname}_%{gitdate}.tar.xz
 URL:		https://github.com/Bumblebee-Project
 
 Group:		System/Kernel and hardware
@@ -16,35 +21,26 @@ It has been verified to work with "real" Optimus and
 "legacy" Optimus laptops (at least, that is how I call them).
 
 %prep 
-%setup -q
+%setup -qn %{oname}
 
 %build
+sed -i 's/#MODULE_VERSION#/%{version}-%{release}/g' dkms/dkms.conf
 
 %install
-mkdir -p "%{buildroot}%{_usrsrc}/bbswitch-%version"
-cp *.c "%{buildroot}%{_usrsrc}/bbswitch-%version"
-cp Makefile "%{buildroot}%{_usrsrc}/bbswitch-%version"
-sed "s/REPLACE/%{version}/" dkms/dkms.conf > "%{buildroot}%{_usrsrc}/bbswitch-%version/dkms.conf"
+mkdir -p %{buildroot}%{_usrsrc}/%{oname}-%{version}-%{release}
+cp *.c %{buildroot}%{_usrsrc}/%{oname}-%{version}-%{release}
+cp Makefile %{buildroot}%{_usrsrc}/%{oname}-%{version}-%{release}
+cp dkms/dkms.conf %{buildroot}%{_usrsrc}/%{oname}-%{version}-%{release}/dkms.conf
 
 %files 
-%defattr(0755,root,root)
-%{_usrsrc}/bbswitch-%version/*
+%{_usrsrc}/%{oname}-%{version}-%{release}/*
 
 %post
-set -x
-dkms --rpm_safe_upgrade add -m bbswitch -v %{version}
-dkms --rpm_safe_upgrade build -m bbswitch -v %{version} &&
-dkms --rpm_safe_upgrade install -m bbswitch -v %{version}
-depmod -a
+dkms add -m %{oname} -v %{version}-%{release} --rpm_safe_upgrade &&
+dkms build -m %{oname} -v %{version}-%{release} --rpm_safe_upgrade &&
+dkms install -m %{oname} -v %{version}-%{release} --rpm_safe_upgrade --force
+true
+/sbin/modprobe %{oname}
 
 %preun
-dkms remove --binary -m bbswitch -v %{version} --rpm_safe_upgrade --all
-
-%changelog
-* Tue Jan 17 2012 Александр Казанцев <kazancas@mandriva.org> v0.4-1
-+ Revision: 762030
-- imported package dkms-bbswitch
-
-
-* Mon Jan 16 2012 Jaron Viëtor <thulinma@thulinma.com> v0.4-1mdk
-- Initial package
+dkms remove --binary -m bbswitch -v %{version}-%{release} --rpm_safe_upgrade --all

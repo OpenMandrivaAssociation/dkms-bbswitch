@@ -1,2 +1,3 @@
 sources:
-  "dkms-bbswitch-v0.4.tar.gz": 815c5aac4615796bc9d318d98065a34f9aa04d83
+  bbswitch_20120614.tar.xz: 132039f2762c495cf17a729fd41d71137edb65f3
+  dkms-bbswitch-v0.4.tar.gz: 815c5aac4615796bc9d318d98065a34f9aa04d83

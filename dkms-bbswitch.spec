@@ -4,10 +4,10 @@
 Name:		dkms-bbswitch
 Summary:	bbswitch - Optimus GPU power switcher
 Version:	0.4.2
-Release:	5
+Release:	6
 #Source0:	%{name}-%{version}.tar.gz
 # source from git repo git://github.com/Bumblebee-Project/bbswitch.git
-Source0:        %{oname}_%{gitdate}.tar.xz
+Source0:	%{oname}_%{gitdate}.tar.xz
 URL:		https://github.com/Bumblebee-Project
 
 Group:		System/Kernel and hardware

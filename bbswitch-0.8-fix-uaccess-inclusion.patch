@@ -1,0 +1,17 @@
+
+Proper inclusion of uaccess.h is from linux, not asm headers
+
+Signed-off-by: Thomas Backlund <tmb@mageia.org>
+
+diff -Nurp bbswitch-0.8.orig/bbswitch.c bbswitch-0.8/bbswitch.c
+--- bbswitch-0.8.orig/bbswitch.c
++++ bbswitch-0.8/bbswitch.c
+@@ -31,7 +31,7 @@
+ #include <linux/pci.h>
+ #include <linux/acpi.h>
+ #include <linux/module.h>
+-#include <asm/uaccess.h>
++#include <linux/uaccess.h>
+ #include <linux/suspend.h>
+ #include <linux/seq_file.h>
+ #include <linux/pm_runtime.h>

@@ -3,11 +3,12 @@
 Name:		dkms-bbswitch
 Summary:	bbswitch - Optimus GPU power switcher
 Version:	0.8
-Release:	5
+Release:	6
 Source0:	%{oname}-%{version}.tar.gz
 URL:		https://github.com/Bumblebee-Project/bbswitch
 Group:		System/Kernel and hardware
 License:	GPLv3
+Patch0: bbswitch-0.8-fix-uaccess-inclusion.patch
 BuildArch:	noarch
 ExcludeArch:	%{armx}
 Requires(post,preun):	dkms
@@ -20,6 +21,8 @@ It has been verified to work with "real" Optimus and
 
 %prep
 %setup -qn %{oname}-%{version}
+%apply_patches
+
 sed -i 's/#MODULE_VERSION#/%{version}-%{release}/g' dkms/dkms.conf
 
 %install

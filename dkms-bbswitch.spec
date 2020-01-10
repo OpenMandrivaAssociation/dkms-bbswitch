@@ -21,7 +21,7 @@ It has been verified to work with "real" Optimus and
 
 %prep
 %setup -qn %{oname}-%{version}
-%apply_patches
+%autopatch -p1
 
 sed -i 's/#MODULE_VERSION#/%{version}-%{release}/g' dkms/dkms.conf
 
